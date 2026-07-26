@@ -1,0 +1,313 @@
+/* =====================================
+   GLOBAL
+===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =====================================
+   BODY
+===================================== */
+
+body {
+    background: #101722;
+    color: #F3F5F7;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 25px;
+}
+
+/* =====================================
+   HEADINGS
+===================================== */
+
+h1,
+h2,
+h3 {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #F3F5F7;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* =====================================
+   FORM
+===================================== */
+
+form {
+    background: #151F2D;
+    border: 1px solid #283446;
+    padding: 18px;
+    margin-bottom: 25px;
+    border-radius: 6px;
+}
+
+label {
+    display: block;
+    color: #A7B1C2;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+/* =====================================
+   TEXTBOX
+===================================== */
+
+input[type="text"] {
+    width: 220px;
+    padding: 10px;
+    font-size: 14px;
+
+    color: white;
+    background: #101722;
+
+    border: 1px solid #283446;
+    outline: none;
+
+    transition: 0.2s;
+}
+
+input[type="text"]:focus {
+    border-color: #387ED1;
+}
+
+/* =====================================
+   BUTTON
+===================================== */
+
+input[type="submit"] {
+    padding: 10px 18px;
+    margin-left: 8px;
+
+    background: #387ED1;
+    color: white;
+
+    border: none;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+input[type="submit"]:hover {
+    background: #4A90E2;
+}
+
+/* =====================================
+   FLASH MESSAGES
+===================================== */
+
+.flash {
+    background: #151F2D;
+
+    padding: 10px 14px;
+
+    margin-bottom: 12px;
+
+    border: 1px solid #283446;
+    border-left: 4px solid #387ED1;
+    color: white;
+}
+
+.flash.success {
+    border-left-color: #2F8CFF;
+    color: #F3F5F7;
+}
+
+.flash.error {
+    border-left-color: #E85C5C;
+    color: #F3F5F7;
+}
+
+.flash.info {
+    border-left-color: #387ED1;
+    color: #F3F5F7;
+}
+
+/* =====================================
+   TABLE
+===================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    background: #151F2D;
+
+    border: 1px solid #283446;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* =====================================
+   TABLE HEADER
+===================================== */
+
+thead {
+    background: #151F2D;
+}
+
+th {
+    padding: 14px;
+
+    color: #A7B1C2;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+
+    border-bottom: 1px solid #283446;
+}
+
+/* =====================================
+   TABLE DATA
+===================================== */
+
+td {
+    padding: 14px;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    border-bottom: 1px solid #283446;
+}
+
+tbody tr {
+    transition: 0.2s;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: rgba(56, 126, 209, 0.05);
+}
+
+/* =====================================
+   POSITIVE / NEGATIVE
+===================================== */
+
+.positive {
+    color: #2F8CFF;
+    font-weight: 600;
+}
+
+.negative {
+    color: #E85C5C;
+    font-weight: 600;
+}
+
+/* =====================================
+   LINKS
+===================================== */
+
+a {
+    color: #387ED1;
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
+a:hover {
+    color: #4A90E2;
+}
+
+/* =====================================
+   REMOVE BUTTON
+===================================== */
+
+.remove-btn {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border: 1px solid #387ED1;
+    border-radius: 4px;
+
+    color: #387ED1;
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: 0.2s;
+}
+
+.remove-btn:hover {
+    background: #387ED1;
+    color: white;
+}
+
+/* =====================================
+   EMPTY MESSAGE
+===================================== */
+
+p {
+    margin-top: 15px;
+
+    padding: 14px;
+
+    background: #151F2D;
+
+    border: 1px solid #283446;
+    border-radius: 6px;
+}
+
+/* =====================================
+   SCROLLBAR
+===================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #101722;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #283446;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #387ED1;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 900px) {
+
+    body {
+        padding: 15px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+        margin-left: 0;
+        width: 100%;
+    }
+}
