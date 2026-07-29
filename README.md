@@ -105,7 +105,7 @@ http://127.0.0.1:5000
 
 ## 📸 Preview
 
-Add your application screenshots here after uploading them to GitHub.
+<img width="1282" height="869" alt="Screenshot 2026-07-30 003739" src="https://github.com/user-attachments/assets/a38c6edf-c044-48c2-bdfb-d7c80a8cce37" />
 
 ---
 
