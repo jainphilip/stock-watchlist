@@ -63,7 +63,7 @@
                             if stock.change < 0
                             else ''
                         }}">
-                            {{ '$%.2f' % stock.change }}
+                            {{ stock.currency_symbol }}{{ '%.2f' % stock.change }}
                         </td>
 
                         <td class="{{
@@ -73,7 +73,7 @@
                             if stock.change_percentage < 0
                             else ''
                         }}">
-                            {{ '$%.2f%%' % stock.change_percentage }}
+                            {{ '%.2f%%' % stock.change_percentage }}
                         </td>
 
                         <td>{{ stock.high }}</td>

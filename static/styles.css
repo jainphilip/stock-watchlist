@@ -1,4 +1,32 @@
 /* =====================================
+   ROOT VARIABLES
+===================================== */
+
+:root {
+    /* Backgrounds */
+    --bg-primary: #272727;
+    --bg-surface: #333333;
+
+    /* Borders */
+    --border-color: #333a3a;
+
+    /* Text */
+    --text-primary: #f2f2f2;
+    --text-secondary: #8fa3a3;
+
+    /* Brand */
+    --primary: #009999;
+    --primary-hover: #00b3b3;
+
+    /* Status */
+    --positive: #2F8CFF;
+    --negative: #e06a6a;
+
+    /* Table Hover */
+    --row-hover: rgba(94, 207, 196, 0.06);
+}
+
+/* =====================================
    GLOBAL
 ===================================== */
 
@@ -13,8 +41,8 @@
 ===================================== */
 
 body {
-    background: #101722;
-    color: #F3F5F7;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     font-family: "Segoe UI", Arial, sans-serif;
     font-size: 14px;
     line-height: 1.4;
@@ -30,8 +58,8 @@ body {
 h1,
 h2,
 h3 {
-    font-family: "Segoe UI", Arial, sans-serif;
-    color: #F3F5F7;
+    font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+    color: var(--primary);
     margin-bottom: 15px;
     font-weight: 600;
 }
@@ -41,16 +69,16 @@ h3 {
 ===================================== */
 
 form {
-    background: #151F2D;
-    border: 1px solid #283446;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
     padding: 18px;
     margin-bottom: 25px;
-    border-radius: 6px;
+    border-radius: 10px;
 }
 
 label {
     display: block;
-    color: #A7B1C2;
+    color: var(--text-secondary);
     font-size: 13px;
     margin-bottom: 6px;
 }
@@ -61,20 +89,25 @@ label {
 
 input[type="text"] {
     width: 220px;
-    padding: 10px;
+    padding: 10px 12px;
     font-size: 14px;
 
-    color: white;
-    background: #101722;
+    color: var(--text-primary);
+    background: var(--bg-primary);
 
-    border: 1px solid #283446;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     outline: none;
 
     transition: 0.2s;
 }
 
 input[type="text"]:focus {
-    border-color: #387ED1;
+    border-color: var(--primary);
+}
+
+input[type="text"]::placeholder {
+    color: var(--text-secondary);
 }
 
 /* =====================================
@@ -85,11 +118,11 @@ input[type="submit"] {
     padding: 10px 18px;
     margin-left: 8px;
 
-    background: #387ED1;
-    color: white;
+    background: var(--primary);
+    color: #10201f;
 
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
 
     cursor: pointer;
 
@@ -100,7 +133,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background: #4A90E2;
+    background: var(--primary-hover);
 }
 
 /* =====================================
@@ -108,30 +141,29 @@ input[type="submit"]:hover {
 ===================================== */
 
 .flash {
-    background: #151F2D;
+    background: var(--bg-surface);
 
-    padding: 10px 14px;
+    padding: 12px 16px;
 
     margin-bottom: 12px;
 
-    border: 1px solid #283446;
-    border-left: 4px solid #387ED1;
-    color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    border-left: 4px solid var(--primary);
+
+    color: var(--text-primary);
 }
 
 .flash.success {
-    border-left-color: #2F8CFF;
-    color: #F3F5F7;
+    border-left-color: var(--positive);
 }
 
 .flash.error {
-    border-left-color: #E85C5C;
-    color: #F3F5F7;
+    border-left-color: var(--negative);
 }
 
 .flash.info {
-    border-left-color: #387ED1;
-    color: #F3F5F7;
+    border-left-color: var(--primary);
 }
 
 /* =====================================
@@ -142,10 +174,10 @@ table {
     width: 100%;
     border-collapse: collapse;
 
-    background: #151F2D;
+    background: var(--bg-surface);
 
-    border: 1px solid #283446;
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -154,20 +186,20 @@ table {
 ===================================== */
 
 thead {
-    background: #151F2D;
+    background: var(--bg-surface);
 }
 
 th {
     padding: 14px;
 
-    color: #A7B1C2;
+    color: var(--text-secondary);
 
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-align: left;
 
-    border-bottom: 1px solid #283446;
+    border-bottom: 1px solid var(--border-color);
 }
 
 /* =====================================
@@ -181,7 +213,7 @@ td {
 
     font-size: 13px;
 
-    border-bottom: 1px solid #283446;
+    border-bottom: 1px solid var(--border-color);
 }
 
 tbody tr {
@@ -193,7 +225,7 @@ tbody tr:last-child td {
 }
 
 tbody tr:hover {
-    background: rgba(56, 126, 209, 0.05);
+    background: var(--row-hover);
 }
 
 /* =====================================
@@ -201,12 +233,12 @@ tbody tr:hover {
 ===================================== */
 
 .positive {
-    color: #2F8CFF;
+    color: var(--positive);
     font-weight: 600;
 }
 
 .negative {
-    color: #E85C5C;
+    color: var(--negative);
     font-weight: 600;
 }
 
@@ -215,14 +247,15 @@ tbody tr:hover {
 ===================================== */
 
 a {
-    color: #387ED1;
-    text-decoration: none;
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-color: rgba(94, 207, 196, 0.4);
 
     transition: 0.2s;
 }
 
 a:hover {
-    color: #4A90E2;
+    color: var(--primary-hover);
 }
 
 /* =====================================
@@ -232,12 +265,12 @@ a:hover {
 .remove-btn {
     display: inline-block;
 
-    padding: 5px 10px;
+    padding: 5px 12px;
 
-    border: 1px solid #387ED1;
-    border-radius: 4px;
+    border: 1px solid var(--primary);
+    border-radius: 20px;
 
-    color: #387ED1;
+    color: var(--primary);
     text-decoration: none;
 
     font-size: 13px;
@@ -246,8 +279,8 @@ a:hover {
 }
 
 .remove-btn:hover {
-    background: #387ED1;
-    color: white;
+    background: var(--primary);
+    color: #10201f;
 }
 
 /* =====================================
@@ -257,12 +290,12 @@ a:hover {
 p {
     margin-top: 15px;
 
-    padding: 14px;
+    padding: 16px;
 
-    background: #151F2D;
+    background: var(--bg-surface);
 
-    border: 1px solid #283446;
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
 }
 
 /* =====================================
@@ -274,15 +307,15 @@ p {
 }
 
 ::-webkit-scrollbar-track {
-    background: #101722;
+    background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #283446;
+    background: var(--border-color);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #387ED1;
+    background: var(--primary);
 }
 
 /* =====================================
