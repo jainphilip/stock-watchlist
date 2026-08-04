@@ -5,8 +5,8 @@
 
 :root {
     /* Backgrounds */
-    --bg-primary: #272727;
-    --bg-surface: #333333;
+    --bg-primary: #1A1A1A;
+    --bg-surface: #242424;
 
     /* Borders */
     --border-color: #333a3a;
@@ -125,7 +125,7 @@ input[type="submit"]:hover {
     margin-bottom: 12px;
 
     border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 0px;
     border-left: 4px solid var(--primary);
 
     color: var(--text-primary);
@@ -324,7 +324,7 @@ p {
 
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 6px;
     padding: 18px;
 }
 
