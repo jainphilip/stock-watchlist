@@ -1,60 +1,120 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from utils import load_watchlist, save_watchlist, fetch_stock_data
+from flask import Flask, flash, redirect, render_template, request, url_for
+from utils import (
+    fetch_stock_data,
+    load_watchlists,
+    create_watchlist,
+    delete_watchlist,
+    add_stock_to_watchlist,
+    remove_stock_from_watchlist,
+)
 
-# Create the Flask application
 app = Flask(__name__)
-app.secret_key = "ABRACADABRA"
+app.secret_key = "supersecretkey"  # Change to a strong random key in production
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
-    # Load saved ticker symbols
-    tickers = load_watchlist()
+    """Home page: redirect straight to the first available watchlist."""
+    watchlists = load_watchlists()
+    first_group = next(iter(watchlists), None)
 
-    # Handle form submission
-    if request.method == "POST":
-        ticker = request.form.get("ticker").upper().strip()
+    if first_group is None:
+        # No watchlists exist at all (edge case) — send them to create one.
+        return render_template("index.html", stocks=[], watchlists={}, current_group=None)
 
-        if not ticker:
-            flash("Please enter a ticker symbol", "error")
-        else:
-            data = fetch_stock_data(ticker)
+    return redirect(url_for("view_watchlist", group=first_group))
 
-            if data and ticker not in tickers:
-                tickers.append(ticker)
-                save_watchlist(tickers)
-                flash(f"{ticker} added!", "success")
 
-            elif ticker in tickers:
-                flash("Ticker already in list", "info")
+@app.route("/watchlist/<group>", methods=["GET", "POST"])
+def view_watchlist(group):
+    """Show one watchlist's stocks (GET) or add a ticker to it (POST)."""
+    watchlists = load_watchlists()
 
-            else:
-                flash("Problem with this ticker symbol", "error")
-
+    if group not in watchlists:
+        flash(f"Watchlist '{group}' not found.", "error")
         return redirect(url_for("index"))
 
-    # Fetch stock data for all saved tickers
-    stocks_data = []
+    if request.method == "POST":
+        ticker = request.form.get("ticker", "").upper().strip()
 
-    for ticker in tickers:
+        if not ticker:
+            flash("Please enter a ticker symbol.", "error")
+        else:
+            data = fetch_stock_data(ticker)
+            if data:
+                success, message = add_stock_to_watchlist(group, ticker)
+                flash(message, "success" if success else "info")
+            else:
+                flash(f"Problem fetching data for symbol '{ticker}'.", "error")
+
+        return redirect(url_for("view_watchlist", group=group))
+
+    # GET: build the live price table for every ticker in this group only.
+    stocks_data = []
+    for ticker in watchlists[group]:
         data = fetch_stock_data(ticker)
         if data:
             stocks_data.append(data)
 
-    return render_template("index.html", stocks=stocks_data)
+    return render_template(
+        "index.html",
+        stocks=stocks_data,
+        watchlists=watchlists,
+        current_group=group,
+    )
 
 
-@app.route("/remove/<ticker>")
-def remove_ticker(ticker):
-    tickers = load_watchlist()
+@app.route("/create_watchlist", methods=["POST"])
+def create_watchlist_route():
+    """Create a new empty watchlist group from the sidebar form."""
+    name = request.form.get("name", "").strip()
+    success, message = create_watchlist(name)
+    flash(message, "success" if success else "error")
 
-    if ticker in tickers:
-        tickers.remove(ticker)
-        save_watchlist(tickers)
-        flash(f"{ticker} removed", "success")
-
+    if success:
+        return redirect(url_for("view_watchlist", group=name))
     return redirect(url_for("index"))
 
 
+@app.route("/delete_watchlist/<group>")
+def delete_watchlist_route(group):
+    """Delete an entire watchlist group, then land on whatever remains."""
+    success, message = delete_watchlist(group)
+    flash(message, "success" if success else "error")
+
+    remaining = load_watchlists()
+    fallback = next(iter(remaining), None)
+    if fallback:
+        return redirect(url_for("view_watchlist", group=fallback))
+    return redirect(url_for("index"))
+
+
+@app.route("/add_stock/<group>", methods=["POST"])
+def add_stock_route(group):
+    """Add a ticker to a specific group (used if you post from elsewhere,
+    e.g. a per-row 'add to this list' control instead of the top form)."""
+    ticker = request.form.get("ticker", "").upper().strip()
+
+    if not ticker:
+        flash("Please enter a ticker symbol.", "error")
+    else:
+        data = fetch_stock_data(ticker)
+        if data:
+            success, message = add_stock_to_watchlist(group, ticker)
+            flash(message, "success" if success else "info")
+        else:
+            flash(f"Problem fetching data for symbol '{ticker}'.", "error")
+
+    return redirect(url_for("view_watchlist", group=group))
+
+
+@app.route("/remove_stock/<group>/<ticker>")
+def remove_stock_route(group, ticker):
+    """Remove a ticker from one specific group."""
+    success, message = remove_stock_from_watchlist(group, ticker)
+    flash(message, "success" if success else "error")
+    return redirect(url_for("view_watchlist", group=group))
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

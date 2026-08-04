@@ -8,6 +8,31 @@
 
 <body>
 
+    <div class="app">
+
+        <aside class="sidebar">
+            <h2>Watchlists</h2>
+            <ul class="watchlist-nav">
+                {% for group in watchlists.keys() %}
+                    <li class="{% if group == current_group %}active{% endif %}">
+                        <a href="{{ url_for('view_watchlist', group=group) }}">{{ group }}</a>
+                        {% if watchlists|length > 1 %}
+                            <a href="{{ url_for('delete_watchlist_route', group=group) }}"
+                               class="delete-watchlist"
+                               onclick="return confirm('Delete watchlist &quot;{{ group }}&quot;?');">&times;</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <form action="{{ url_for('create_watchlist_route') }}" method="POST" class="new-watchlist-form">
+                <input type="text" name="name" placeholder="New watchlist" required>
+                <input type="submit" value="+ New Watchlist">
+            </form>
+        </aside>
+
+        <main class="content">
+
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -18,7 +43,7 @@
         {% endif %}
     {% endwith %}
 
-    <form action="{{ url_for('index') }}" method="POST">
+    <form action="{{ url_for('view_watchlist', group=current_group) }}" method="POST">
         <label for="ticker">Enter Ticker Symbol:</label>
         <input
             type="text"
@@ -50,20 +75,21 @@
                 {% for stock in stocks %}
                     <tr>
 
-                        <td>{{ stock.ticker }}</td>
+                        <td class="ticker">{{ stock.ticker }}</td>
 
                         <td>{{ stock.price }}</td>
 
                         <td>{{ stock.datetime }}</td>
 
                         <td class="{{
-                            'positive'
-                            if stock.change > 0
-                            else 'negative'
-                            if stock.change < 0
-                            else ''
+                                'positive'
+                                if stock.change > 0
+                                else 'negative'
+                                if stock.change < 0
+                                else ''
                         }}">
-                            {{ stock.currency_symbol }}{{ '%.2f' % stock.change }}
+                            {{ stock.currency_symbol }}
+                            <span class="big">{{ stock.change_whole }}</span><span class="small">.{{ stock.change_decimal }}</span>
                         </td>
 
                         <td class="{{
@@ -73,7 +99,7 @@
                             if stock.change_percentage < 0
                             else ''
                         }}">
-                            {{ '%.2f%%' % stock.change_percentage }}
+                            <span class="big">{{ stock.pct_whole }}</span><span class="small">.{{ stock.pct_decimal }}%</span>
                         </td>
 
                         <td>{{ stock.high }}</td>
@@ -83,7 +109,7 @@
                         <td>{{ stock.volume }}</td>
 
                         <td>
-                            <a href="{{ url_for('remove_ticker', ticker=stock.ticker) }}">
+                            <a href="{{ url_for('remove_stock_route', group=current_group, ticker=stock.ticker) }}">
                                 Remove
                             </a>
                         </td>
@@ -97,6 +123,10 @@
     {% else %}
         <p>No tickers in list.</p>
     {% endif %}
+
+        </main>
+
+    </div>
 
 </body>
 
