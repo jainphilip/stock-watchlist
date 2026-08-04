@@ -105,7 +105,8 @@ http://127.0.0.1:5000
 
 ## 📸 Preview
 
-<img width="1920" height="1080" alt="Screenshot 2026-08-04 195350" src="https://github.com/user-attachments/assets/bb473b84-2d2a-4227-bc6d-ea16a6f6c760" />
+<img width="1920" height="1080" alt="Screenshot 2026-08-04 201040" src="https://github.com/user-attachments/assets/4942be42-784f-49e5-83d1-690162ebb12d" />
+
 
 
 
