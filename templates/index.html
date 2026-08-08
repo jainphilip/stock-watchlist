@@ -8,14 +8,29 @@
 
 <body>
 
+    <header class="topbar">
+        <div class="topbar-brand">
+            <span class="topbar-logo">SW</span>
+            <span class="topbar-title">STOCK WATCHLIST</span>
+        </div>
+
+        <div class="topbar-meta">
+            <span class="current-group">{{ current_group }}</span>
+        </div>
+
+    </header>
+
     <div class="app">
 
         <aside class="sidebar">
-            <h2>Watchlists</h2>
+            <h2>Watchlists ({{ watchlists|length }})</h2>
             <ul class="watchlist-nav">
                 {% for group in watchlists.keys() %}
-                    <li class="{% if group == current_group %}active{% endif %}">
-                        <a href="{{ url_for('view_watchlist', group=group) }}">{{ group }}</a>
+                    <li class="watchlist-item {% if group == current_group %}active{% endif %}">
+                        <a href="{{ url_for('view_watchlist', group=group) }}" class="watchlist-link">
+                            <span class="watchlist-icon">&#9638;</span>
+                            <span class="watchlist-name">{{ group }}</span>
+                        </a>
                         {% if watchlists|length > 1 %}
                             <a href="{{ url_for('delete_watchlist_route', group=group) }}"
                                class="delete-watchlist"
@@ -27,102 +42,105 @@
 
             <form action="{{ url_for('create_watchlist_route') }}" method="POST" class="new-watchlist-form">
                 <input type="text" name="name" placeholder="New watchlist" required>
-                <input type="submit" value="+ New Watchlist">
+                <button type="submit" class="btn-add-watchlist">+ Add Watchlist</button>
             </form>
         </aside>
 
         <main class="content">
 
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash {{ category }}">
-                    {{ message }}
+            <div class="content-header">
+                <h1>{{ current_group }}</h1>
+                <span class="stock-count">{{ stocks|length }} ticker{{ '' if stocks|length == 1 else 's' }}</span>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('view_watchlist', group=current_group) }}" method="POST" class="add-ticker-form">
+                <div>
+                    <label for="ticker">Enter Ticker Symbol</label>
+                    <input
+                        type="text"
+                        name="ticker"
+                        id="ticker"
+                        required
+                    >
                 </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+                <input type="submit" value="Add Ticker">
+            </form>
 
-    <form action="{{ url_for('view_watchlist', group=current_group) }}" method="POST">
-        <label for="ticker">Enter Ticker Symbol:</label>
-        <input
-            type="text"
-            name="ticker"
-            id="ticker"
-            required
-        >
-        <input type="submit" value="Add Ticker">
-    </form>
+            {% if stocks %}
+                <div class="stock-list">
+                    {% for stock in stocks %}
+                        <div class="stock-card">
 
-    {% if stocks %}
-        <table>
+                            <div class="stock-card-header">
+                                <span class="stock-ticker">{{ stock.ticker }}</span>
+                                <span class="stock-price">{{ stock.price }}</span>
+                                <span class="stock-datetime">{{ stock.datetime }}</span>
+                                <a href="{{ url_for('remove_stock_route', group=current_group, ticker=stock.ticker) }}" class="remove-btn">
+                                    Remove
+                                </a>
+                            </div>
 
-            <thead>
-                <tr>
-                    <th>Ticker</th>
-                    <th>Last</th>
-                    <th>Date / Time</th>
-                    <th>Change</th>
-                    <th>Change %</th>
-                    <th>High</th>
-                    <th>Low</th>
-                    <th>Volume</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+                            <div class="stock-details">
 
-            <tbody>
-                {% for stock in stocks %}
-                    <tr>
+                                <div class="stock-detail-cell">
+                                    <span class="detail-label">Change</span>
+                                    <span class="detail-value {{
+                                            'positive'
+                                            if stock.change > 0
+                                            else 'negative'
+                                            if stock.change < 0
+                                            else ''
+                                    }}">
+                                        {{ stock.currency_symbol }}{{ stock.change_whole }}.{{ stock.change_decimal }}
+                                    </span>
+                                </div>
 
-                        <td class="ticker">{{ stock.ticker }}</td>
+                                <div class="stock-detail-cell">
+                                    <span class="detail-label">Change %</span>
+                                    <span class="detail-value {{
+                                        'positive'
+                                        if stock.change_percentage > 0
+                                        else 'negative'
+                                        if stock.change_percentage < 0
+                                        else ''
+                                    }}">
+                                        {{ stock.pct_whole }}.{{ stock.pct_decimal }}%
+                                    </span>
+                                </div>
 
-                        <td>{{ stock.price }}</td>
+                                <div class="stock-detail-cell">
+                                    <span class="detail-label">High</span>
+                                    <span class="detail-value">{{ stock.high }}</span>
+                                </div>
 
-                        <td>{{ stock.datetime }}</td>
+                                <div class="stock-detail-cell">
+                                    <span class="detail-label">Low</span>
+                                    <span class="detail-value">{{ stock.low }}</span>
+                                </div>
 
-                        <td class="{{
-                                'positive'
-                                if stock.change > 0
-                                else 'negative'
-                                if stock.change < 0
-                                else ''
-                        }}">
-                            {{ stock.currency_symbol }}
-                            <span class="big">{{ stock.change_whole }}</span><span class="small">.{{ stock.change_decimal }}</span>
-                        </td>
+                                <div class="stock-detail-cell">
+                                    <span class="detail-label">Volume</span>
+                                    <span class="detail-value">{{ stock.volume }}</span>
+                                </div>
 
-                        <td class="{{
-                            'positive'
-                            if stock.change_percentage > 0
-                            else 'negative'
-                            if stock.change_percentage < 0
-                            else ''
-                        }}">
-                            <span class="big">{{ stock.pct_whole }}</span><span class="small">.{{ stock.pct_decimal }}%</span>
-                        </td>
+                            </div>
 
-                        <td>{{ stock.high }}</td>
-
-                        <td>{{ stock.low }}</td>
-
-                        <td>{{ stock.volume }}</td>
-
-                        <td>
-                            <a href="{{ url_for('remove_stock_route', group=current_group, ticker=stock.ticker) }}">
-                                Remove
-                            </a>
-                        </td>
-
-                    </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
-
-    {% else %}
-        <p>No tickers in list.</p>
-    {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="empty-state">No tickers in list.</p>
+            {% endif %}
 
         </main>
 

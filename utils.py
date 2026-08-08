@@ -147,7 +147,7 @@ def fetch_stock_data(ticker):
             )
 
             # Format for display
-            change_str = f"{change:.2f}"
+            change_str = f"{abs(change):.2f}"
             change_whole, change_decimal = change_str.split(".")
 
             change_pct_str = f"{change_pct:.2f}"

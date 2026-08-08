@@ -9,7 +9,7 @@ from utils import (
 )
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # Change to a strong random key in production
+app.secret_key = "supersecretkey"
 
 
 @app.route("/")
@@ -117,4 +117,4 @@ def remove_stock_route(group, ticker):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=True)
