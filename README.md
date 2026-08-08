@@ -105,7 +105,8 @@ http://127.0.0.1:8080
 
 ## 📸 Preview
 
-<img width="1920" height="1080" alt="Screenshot 2026-08-04 201040" src="https://github.com/user-attachments/assets/4942be42-784f-49e5-83d1-690162ebb12d" />
+<img width="1920" height="1028" alt="Screenshot 2026-08-08 163214" src="https://github.com/user-attachments/assets/e4100f9a-4a57-401b-a8c4-d3b08cd0d796" />
+
 
 
 
